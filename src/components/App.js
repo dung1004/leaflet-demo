@@ -38,8 +38,8 @@ class App extends Component {
                 {/* <AnimateExample /> */}
                 {/* <WmsTileLayerExample /> */}
                 {/* <VideoOverLayExample /> */}
-                {/* <EventsExample /> */}
-                <LeafletDemo />
+                <EventsExample />
+                {/* <LeafletDemo /> */}
             </React.Fragment>
         );
     }

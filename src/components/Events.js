@@ -5,51 +5,62 @@ export default class EventsExample extends Component {
   state = {
     hasLocation: false,
     latlng: {
-      lat: 51.505,
-      lng: -0.09,
+      lat: 16.061124,
+      lng: 108.223999,
     },
   }
-
   mapRef = createRef()
 
-  handleClick = () => {
-    const map = this.mapRef.current
-    console.log(map.leafletElement);
+  handleClick = (e) => {
+    console.log(this.mapRef);
     
-    if (map != null) {
-      map.leafletElement.locate()
-    }
-  }
-
-  handleLocationFound = (e) => {
+    console.log('e handleClick: ', e.latlng);
     this.setState({
       hasLocation: true,
       latlng: e.latlng,
-    })
+    });
+    
   }
 
   render() { 
-      const { latlng } = this.state
-    const marker = this.state.hasLocation ? (
-      <Marker position={this.state.latlng}>
+      const { latlng, hasLocation } = this.state
+      const marker = hasLocation ? (
+      <Marker position={latlng}>
         <Popup>You are here</Popup>
       </Marker>
     ) : null
 
     return (
-      <Map
-        center={ latlng }
-        length={4}
-        onClick={this.handleClick}
-        onLocationfound={this.handleLocationFound}
-        ref={this.mapRef}
-        zoom={12}>
-        <TileLayer
-          attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {marker}
-      </Map>
+      <React.Fragment>
+        <form className="formLatlng">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="basic-addon1">lat</span>
+            </div>
+            <input type="text" className="form-control" value={latlng.lat} readOnly />
+          </div>
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="basic-addon1">lng</span>
+            </div>
+            <input type="text" className="form-control" value={latlng.lng} readOnly />
+          </div>
+        </form>
+         <Map
+          center={ latlng }
+          length={4}
+          onClick={this.handleClick}
+          // onLocationfound={latlng}
+          ref={this.mapRef}
+          zoom={12}>
+          <TileLayer
+            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {marker}
+        </Map>
+      </React.Fragment>
+     
     )
   }
 }
